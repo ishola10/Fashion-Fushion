@@ -1,0 +1,32 @@
+.navbar {
+  background-color: var(--primary-color);
+  padding: 2%;
+  position: fixed;
+  width: 100%;
+}
+
+.nav__content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 80%;
+  margin: auto;
+}
+
+.nav__content a {
+  text-decoration: none;
+  color: var(--accent-color);
+}
+
+.nav__content h1 {
+  color: var(--accent-color);
+}
+
+.links {
+  display: flex;
+  gap: 2rem;
+}
+
+.links a.active {
+  color: var(--highlight-color);
+}

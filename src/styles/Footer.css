@@ -1,0 +1,88 @@
+footer {
+  background-color: #333;
+  color: white;
+  text-align: center;
+  height: 100vh;
+}
+
+.footer__top {
+  display: flex;
+  justify-content: space-between;
+}
+
+.footer__top .footer__name {
+  padding: 7.5%;
+  width: 40%;
+}
+
+.footer__top .footer__name h1 {
+  font-size: 2rem;
+  color: var(--highlight-color);
+}
+
+.footer__top .footer__name p {
+  font-size: 1rem;
+  color: var(--accent-color);
+  margin: 10px 0;
+}
+
+.footer__top .shp_str {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 60%;
+  padding: 5%;
+  background-color: var(--accent-color);
+}
+
+.shp_str ul {
+  list-style: none;
+  width: 100%;
+  text-align: left;
+}
+
+.shp_str ul li {
+  margin: 10px 0;
+}
+
+.shp_str ul li a {
+  text-decoration: none;
+  color: var(--highlight-color);
+}
+
+.shp_str ul li a:hover {
+  color: var(--secondary-color);
+}
+
+.footer__buttom {
+  display: flex;
+  justify-content: space-between;
+}
+
+.footer__buttom .footer_socials {
+  padding: 8.5%;
+  width: 40%;
+  background-color: var(--accent-color);
+}
+
+.footer__buttom .footer_socials i {
+  font-size: 2rem;
+  color: var(--highlight-color);
+  margin: 0 10px;
+}
+
+.footer__buttom .footer_socials i:hover {
+  color: var(--secondary-color);
+}
+
+.footer__buttom .reserved {
+  padding: 8.5%;
+  width: 60%;
+  background-color: var(--highlight-color);
+}
+
+.footer__buttom .reserved p {
+  font-size: 1.5rem;
+  color: var(--accent-color);
+  margin: 10px 0;
+}
