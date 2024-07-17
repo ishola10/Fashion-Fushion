@@ -5,10 +5,19 @@ const Checkout = ({ cartItems, onOrderPlaced }) => {
   const [deliveryAddress, setDeliveryAddress] = useState("");
   const [deliveryDetails, setDeliveryDetails] = useState("door");
   const [paymentMethod, setPaymentMethod] = useState("cash");
+  const [cardDetails, setCardDetails] = useState({ cardNumber: "", expiryDate: "", cvv: "" });
 
   const handleAddressChange = (e) => setDeliveryAddress(e.target.value);
   const handleDeliveryChange = (e) => setDeliveryDetails(e.target.value);
   const handlePaymentChange = (e) => setPaymentMethod(e.target.value);
+
+  const handleCardDetailsChange = (e) => {
+    const { name, value } = e.target;
+    setCardDetails((prevDetails) => ({
+      ...prevDetails,
+      [name]: value,
+    }));
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -91,6 +100,43 @@ const Checkout = ({ cartItems, onOrderPlaced }) => {
             />
             <label htmlFor="cards">Pay with Cards</label>
           </div>
+          {paymentMethod === "cards" && (
+            <div className="card-details">
+              <div className="form-group">
+                <label htmlFor="cardNumber">Card Number:</label>
+                <input
+                  type="text"
+                  id="cardNumber"
+                  name="cardNumber"
+                  value={cardDetails.cardNumber}
+                  onChange={handleCardDetailsChange}
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="expiryDate">Expiry Date:</label>
+                <input
+                  type="text"
+                  id="expiryDate"
+                  name="expiryDate"
+                  value={cardDetails.expiryDate}
+                  onChange={handleCardDetailsChange}
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="cvv">CVV:</label>
+                <input
+                  type="text"
+                  id="cvv"
+                  name="cvv"
+                  value={cardDetails.cvv}
+                  onChange={handleCardDetailsChange}
+                  required
+                />
+              </div>
+            </div>
+          )}
           <div>
             <input
               type="radio"
@@ -102,7 +148,13 @@ const Checkout = ({ cartItems, onOrderPlaced }) => {
             />
             <label htmlFor="bank">Bank Transfer</label>
           </div>
-          <div>
+          {paymentMethod === "bank" && (
+            <div className="bank-details">
+              <p>Account Number: 1234567890</p>
+              <p>Bank Name: Opay Bank</p>
+            </div>
+          )}
+          {/* <div>
             <input
               type="radio"
               id="ussd"
@@ -112,7 +164,7 @@ const Checkout = ({ cartItems, onOrderPlaced }) => {
               onChange={handlePaymentChange}
             />
             <label htmlFor="ussd">USSD</label>
-          </div>
+          </div> */}
         </div>
 
         <button type="submit">Place Order</button>
