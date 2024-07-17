@@ -2,7 +2,7 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import "../styles/Cart.css";
 import Footer from "../views/Footer";
-import EmptyCart from "../assets/images/cart.668e6453.svg";
+import EmptyCart from "../assets/images/icons8-shopping-cart-26.png";
 
 const Cart = ({ items, onRemoveItem }) => {
   const totalItems = items.length;

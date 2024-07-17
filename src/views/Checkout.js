@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "../styles/Checkout.css";
 
-const Checkout = () => {
+const Checkout = ({ cartItems, onOrderPlaced }) => {
   const [deliveryAddress, setDeliveryAddress] = useState("");
   const [deliveryDetails, setDeliveryDetails] = useState("door");
   const [paymentMethod, setPaymentMethod] = useState("cash");
@@ -12,11 +12,14 @@ const Checkout = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log({
-      deliveryAddress,
-      deliveryDetails,
-      paymentMethod,
-    });
+    const order = {
+      id: Date.now().toString(),
+      date: new Date().toISOString().split('T')[0],
+      status: "Pending",
+      total: cartItems.reduce((sum, item) => sum + item.price, 0).toFixed(2),
+      items: cartItems
+    };
+    onOrderPlaced(order);
     alert("Order placed successfully!");
   };
 
