@@ -19,7 +19,6 @@ function Login({ onLogin }) {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       console.log('User logged in successfully');
       
-      // Call the onLogin function to update the user state
       onLogin(userCredential.user); 
 
       navigate('/profile');

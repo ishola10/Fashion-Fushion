@@ -31,7 +31,6 @@ function Signup({ onSignup }) {
 
       console.log('User signed up:', userCredential.user);
 
-      // Call the onSignup function to update the user state
       onSignup(userCredential.user); 
 
       navigate('/profile');

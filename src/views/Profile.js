@@ -4,8 +4,7 @@ import { auth, storage } from '../firebase';
 import { getDownloadURL, ref as storageRef, uploadBytes } from 'firebase/storage';
 import { updateProfile } from 'firebase/auth';
 
-const Profile = () => {
-  const [user, setUser] = useState(null);
+const Profile = ({ user, setUser }) => {
   const [editing, setEditing] = useState(false);
   const [newName, setNewName] = useState('');
   const [dob, setDob] = useState('');
@@ -15,18 +14,13 @@ const Profile = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((newUser) => {
-      setUser(newUser);
-      if (newUser) {
-        setNewName(newUser.displayName || '');
-        setDob(newUser.dob || '');
-        setAddress(newUser.address || '');
-        setPhone(newUser.phone || '');
-      }
-    });
-
-    return () => unsubscribe();
-  }, []);
+    if (user) {
+      setNewName(user.displayName || '');
+      setDob(user.dob || '');
+      setAddress(user.address || '');
+      setPhone(user.phone || '');
+    }
+  }, [user]);
 
   const uploadProfilePicture = async (event) => {
     const file = event.target.files[0];
@@ -65,17 +59,14 @@ const Profile = () => {
   };
 
   const startEdit = () => {
-    setNewName(user.displayName || '');
-    setDob(user.dob || '');
-    setAddress(user.address || '');
-    setPhone(user.phone || '');
     setEditing(true);
   };
 
   const signout = async () => {
     try {
       await auth.signOut();
-      navigate.push('/');
+      setUser(null);  // Set the user to null when signing out
+      navigate('/');
     } catch (error) {
       console.error('Error signing out:', error);
     }
