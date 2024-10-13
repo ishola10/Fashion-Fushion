@@ -2,7 +2,7 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import "../styles/Navbar.css";
 
-const NavBar = () => {
+const NavBar = ({ user }) => {
   return (
     <div className="navbar">
       <div>
@@ -20,10 +20,24 @@ const NavBar = () => {
             <NavLink className="link" activeClassName="active" to="/cart">
               Cart
             </NavLink>
-            <NavLink className="link" activeClassName="active" to="/profile">
-              Profile
-            </NavLink>
-            
+
+            {user ? (
+              <>
+                <NavLink className="link" activeClassName="active" to="/profile">
+                  Profile
+                </NavLink>
+              </>
+            ) : (
+              <>
+                <NavLink className="link" activeClassName="active" to="/login">
+                  Login
+                </NavLink>
+
+                <NavLink className="link" activeClassName="active" to="/signup">
+                  Signup
+                </NavLink>
+              </>
+            )}
           </div>
         </nav>
       </div>

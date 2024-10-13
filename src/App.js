@@ -24,13 +24,12 @@ function App() {
     setCartItems((prevCartItems) => [...prevCartItems, item]);
   };
 
-  const handleSignup = (userData) => {
-    setUser(userData);
+  const handleLogin = (user) => {
+    setUser(user);
   };
 
-  const handleLogout = () => {
-    setUser(null);
-    setOrderHistory([]);
+  const handleSignup = (user) => {
+    setUser(user); 
   };
 
   const handleOrderPlaced = (order) => {
@@ -41,20 +40,14 @@ function App() {
   return (
     <Router>
       <div className="app">
-        <NavBar />
+        <NavBar user={user} />
         <Routes>
           <Route path="/" element={<Home cartItems={cartItems} setCartItems={setCartItems} />} />
           <Route path="/shop" element={<Shop cartItems={cartItems} setCartItems={setCartItems} />} />
           <Route path="/cart" element={<Cart items={cartItems} onRemoveItem={handleRemoveItem} />} />
-          <Route 
-            path="/profile" 
-            element={user ? <Profile user={user} onLogout={handleLogout} orderHistory={orderHistory} /> : <Navigate to="/signup" />} 
-          />
-          <Route 
-            path="/signup" 
-            element={user ? <Navigate to="/profile" /> : <SignupPage onSignup={handleSignup} />} 
-          />
-          <Route path="/login" element={<Login />} />
+          <Route path="/login" element={<Login onLogin={handleLogin} />} />
+        <Route path="/signup" element={<SignupPage onSignup={handleSignup} />} />
+        <Route path="/profile" element={<Profile user={user} />} />
           <Route path="/product/:productId" element={<ProductDetail onAddToCart={handleAddToCart} />} />
           <Route path="/checkout" element={<Checkout cartItems={cartItems} onOrderPlaced={handleOrderPlaced} />} />
         </Routes>

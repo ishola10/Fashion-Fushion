@@ -4,7 +4,7 @@ import { auth, db } from '../firebase';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { addDoc, collection } from 'firebase/firestore';
 
-function Signup() {
+function Signup({ onSignup }) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -30,7 +30,11 @@ function Signup() {
       });
 
       console.log('User signed up:', userCredential.user);
-      navigate('/home');
+
+      // Call the onSignup function to update the user state
+      onSignup(userCredential.user); 
+
+      navigate('/profile');
     } catch (error) {
       console.error('Error signing up:', error.message);
     } finally {
@@ -49,7 +53,7 @@ function Signup() {
       <div className="temp">
         <div className="sign-up">
           <h2>
-            Welcome to <strong style={{ color: '#bc6c25' }}>Predictify!!</strong>, let's
+            Welcome to <strong style={{ color: '#bc6c25' }}>Fashion Fusion!!</strong>, let's
             get started
           </h2>
           <h3>Sign Up</h3>

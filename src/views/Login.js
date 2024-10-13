@@ -4,7 +4,7 @@ import { auth } from '../firebase';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import '../styles/Login.css';
 
-function Login() {
+function Login({ onLogin }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -16,9 +16,13 @@ function Login() {
     setLoading(true);
     setErrorMessage('');
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
       console.log('User logged in successfully');
-      navigate('/home');
+      
+      // Call the onLogin function to update the user state
+      onLogin(userCredential.user); 
+
+      navigate('/profile');
     } catch (error) {
       console.error('Error logging in:', error.message);
       setErrorMessage('Invalid email or password');
@@ -33,7 +37,7 @@ function Login() {
       <div className="temp">
         <div className="login">
           <h2>
-            Welcome to <strong style={{ color: 'var(--accent-color)' }}>Fashion Fushion!!</strong>,
+            Welcome to <strong style={{ color: 'var(--accent-color)' }}>Fashion Fusion!!</strong>,
             let's get started
           </h2>
           <h3>Login</h3>
