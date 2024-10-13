@@ -2,7 +2,7 @@ footer {
   background-color: #333;
   color: white;
   text-align: center;
-  height: 100vh;
+  height: 70vh;
 }
 
 .footer__top {
@@ -11,7 +11,7 @@ footer {
 }
 
 .footer__top .footer__name {
-  padding: 7.5%;
+  padding: 6% 7.5%;
   width: 40%;
 }
 
@@ -60,7 +60,7 @@ footer {
 }
 
 .footer__buttom .footer_socials {
-  padding: 8.5%;
+  padding: 6% 8.5%;
   width: 40%;
   background-color: var(--accent-color);
 }
@@ -76,7 +76,7 @@ footer {
 }
 
 .footer__buttom .reserved {
-  padding: 8.5%;
+  padding: 6% 8.5%;
   width: 60%;
   background-color: var(--highlight-color);
 }

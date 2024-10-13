@@ -5,6 +5,10 @@
   width: 100%;
 }
 
+.navbar.hidden {
+  transform: translateY(-100%);
+}
+
 .nav__content {
   display: flex;
   justify-content: space-between;

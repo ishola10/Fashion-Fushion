@@ -77,6 +77,17 @@ const Home = ({ cartItems, setCartItems }) => {
           ORDER
         </h1>
       </div>
+      <div className="sales">
+      <div className="sales__image">
+          <img src={Woman} alt="woman" />
+        </div>
+        <div className="sales__content">
+          <h2>SALES IS ON!</h2>
+          <h3>Get 20% off on all items</h3>
+          <p>20% off using PROMO23 at Checkout</p>
+        </div>
+        
+      </div>
       <div className="shipping">
         <div className="shipping__image">
           <img src={Delivery} alt="delivery" />
