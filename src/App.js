@@ -9,6 +9,7 @@ import SignupPage from "./views/SignupPage.js";
 import ProductDetail from "./views/ProductDetails.js";
 import Checkout from "./views/Checkout.js";
 import NavBar from "./components/Navbar.js";
+import Login from "./views/Login.js";
 
 function App() {
   const [cartItems, setCartItems] = useState([]);
@@ -53,6 +54,7 @@ function App() {
             path="/signup" 
             element={user ? <Navigate to="/profile" /> : <SignupPage onSignup={handleSignup} />} 
           />
+          <Route path="/login" element={<Login />} />
           <Route path="/product/:productId" element={<ProductDetail onAddToCart={handleAddToCart} />} />
           <Route path="/checkout" element={<Checkout cartItems={cartItems} onOrderPlaced={handleOrderPlaced} />} />
         </Routes>

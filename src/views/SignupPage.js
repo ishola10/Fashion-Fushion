@@ -1,46 +1,104 @@
 import React, { useState } from 'react';
-import '../styles/Signup.css';
+import { Link, useNavigate } from 'react-router-dom';
+import { auth, db } from '../firebase';
+import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import { addDoc, collection } from 'firebase/firestore';
 
-const SignupPage = ({ onSignup }) => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: ''
-  });
+function Signup() {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value
-    });
+  const signup = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      await updateProfile(auth.currentUser, { displayName: name });
+
+      const usersCollection = collection(db, 'users');
+      await addDoc(usersCollection, {
+        email: email,
+        displayName: name,
+      });
+
+      console.log('User signed up:', userCredential.user);
+      navigate('/home');
+    } catch (error) {
+      console.error('Error signing up:', error.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onSignup(formData);
+  const togglePasswordVisibility = () => {
+    setShowPassword((prev) => !prev);
   };
 
   return (
-    <div className="signup-page">
-      <h2>Sign Up</h2>
-      <form onSubmit={handleSubmit} className="signup-form">
-        <label>
-          Name:
-          <input type="text" name="name" value={formData.name} onChange={handleChange} required />
-        </label>
-        <label>
-          Email:
-          <input type="email" name="email" value={formData.email} onChange={handleChange} required />
-        </label>
-        <label>
-          Password:
-          <input type="password" name="password" value={formData.password} onChange={handleChange} required />
-        </label>
-        <button type="submit">Sign Up</button>
-      </form>
+    <div className="sign">
+      <Link to="/" className="link">← Back Home</Link>
+
+      <div className="temp">
+        <div className="sign-up">
+          <h2>
+            Welcome to <strong style={{ color: '#bc6c25' }}>Predictify!!</strong>, let's
+            get started
+          </h2>
+          <h3>Sign Up</h3>
+          <form onSubmit={signup}>
+            <label htmlFor="name">Name:</label>
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+            />
+            <label htmlFor="email">Email:</label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+            <label htmlFor="password">Password:</label>
+            <div className="password-container">
+              <input
+                type={showPassword ? 'text' : 'password'}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+              <input
+                type="checkbox"
+                onClick={togglePasswordVisibility}
+              />
+            </div>
+            <button
+              type="submit"
+              disabled={loading}
+              style={{ backgroundColor: '#bc6c25' }}
+            >
+              {loading ? 'Signing up...' : 'Signup'}
+            </button>
+          </form>
+          <br />
+          <div>
+            <Link className="login-link" to="/login">
+              Already have an account? Login
+            </Link>
+          </div>
+        </div>
+      </div>
     </div>
   );
-};
+}
 
-export default SignupPage;
+export default Signup;
