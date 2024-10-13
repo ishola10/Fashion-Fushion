@@ -6,6 +6,7 @@ import Product from "../components/Product";
 import ConfirmationModal from "../components/ConfirmationModal";
 import Loader from "../components/Loader";
 import Woman from "../assets/images/woman-img.webp";
+import ClothingHanger from "../assets/images/clothes-on-clothing-hanger.png";
 import Delivery from "../assets/images/delivery-image.jpg";
 
 const Home = ({ cartItems, setCartItems }) => {
@@ -21,7 +22,7 @@ const Home = ({ cartItems, setCartItems }) => {
         const limitedProducts = response.data.slice(0, 8);
         setProducts(limitedProducts);
         setFilteredProducts(limitedProducts);
-        setIsLoading(false); 
+        setIsLoading(false);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
@@ -77,16 +78,15 @@ const Home = ({ cartItems, setCartItems }) => {
           ORDER
         </h1>
       </div>
-      <div className="sales">
-      <div className="sales__image">
-          <img src={Woman} alt="woman" />
+      <div style={{backgroundColor: 'var(--background-color)', padding: '5% 1%'}} className="sales">
+        <div className="sales__image">
+          <img src={ClothingHanger} alt="clothings" />
         </div>
         <div className="sales__content">
           <h2>SALES IS ON!</h2>
           <h3>Get 20% off on all items</h3>
           <p>20% off using PROMO23 at Checkout</p>
         </div>
-        
       </div>
       <div className="shipping">
         <div className="shipping__image">
