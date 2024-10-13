@@ -9,7 +9,7 @@ const NavBar = () => {
         <nav className="nav__content">
           <div>
             <NavLink className="nav__logo" to="/">
-              <h1>Fashion Fusion</h1>
+              <h1>Fashion Fusion & Stores</h1>
             </NavLink>
           </div>
           <div className="links">

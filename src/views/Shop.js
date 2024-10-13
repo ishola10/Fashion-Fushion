@@ -16,17 +16,31 @@ const Shop = ({ cartItems, setCartItems }) => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    axios
-      .get("https://fakestoreapi.com/products")
-      .then((response) => {
-        setProducts(response.data);
-        setFilteredProducts(response.data);
+    const fetchProducts = async () => {
+      try {
+        const [response1, response2] = await Promise.all([
+          axios.get("https://fakestoreapi.com/products"),
+          axios.get("https://dummyjson.com/products"),
+        ]);
+
+        const dummyJsonProducts = response2.data.products.map((product) => ({
+          id: product.id,
+          title: product.title,
+          price: product.price,
+          image: product.thumbnail,
+          category: product.category,
+        }));
+
+        const combinedProducts = [...response1.data, ...dummyJsonProducts];
+        setProducts(combinedProducts);
+        setFilteredProducts(combinedProducts);
         setIsLoading(false);
-      })
-      .catch((error) => {
+      } catch (error) {
         console.error("Error fetching data:", error);
         setIsLoading(false);
-      });
+      }
+    };
+    fetchProducts();
   }, []);
 
   useEffect(() => {
@@ -85,6 +99,8 @@ const Shop = ({ cartItems, setCartItems }) => {
             <li onClick={() => setCategory("men's clothing")}>Men</li>
             <li onClick={() => setCategory("women's clothing")}>Women</li>
             <li onClick={() => setCategory("electronics")}>Electronics</li>
+            <li onClick={() => setCategory("jewelery")}>Jewelry</li>
+            
           </ul>
         </div>
 

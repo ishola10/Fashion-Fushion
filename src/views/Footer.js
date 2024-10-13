@@ -6,7 +6,7 @@ const Footer = () => {
         <div>
           <div className="footer__top">
             <div className="footer__name">
-              <h1>FASHION FUSION</h1>
+              <h1>FASHION FUSION & Stores</h1>
               <p>info@fashionfusion.com</p>
               <p>Tel: 123-456-7890</p>
               <p>123 Fashion St, New York, NY 10001</p>
@@ -70,7 +70,7 @@ const Footer = () => {
               </a>
             </div>
             <div className="reserved">
-              <p>&copy; 2021 Fashion Fusion. All rights reserved.</p>
+              <p>&copy; 2021 Fashion Fusion & Stores. All rights reserved.</p>
             </div>
           </div>
         </div>

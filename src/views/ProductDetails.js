@@ -10,10 +10,39 @@ const ProductDetail = ({ onAddToCart }) => {
   const [product, setProduct] = useState(null);
 
   useEffect(() => {
-    axios
-      .get(`https://fakestoreapi.com/products/${productId}`)
-      .then((response) => setProduct(response.data))
-      .catch((error) => console.error("Error fetching product details:", error));
+    const fetchProductDetails = async () => {
+      try {
+        const isDummyJsonProduct = !isNaN(productId);
+
+        const response = await axios.get(
+          isDummyJsonProduct
+            ? `https://dummyjson.com/products/${productId}`
+            : `https://fakestoreapi.com/products/${productId}`
+        );
+
+        const productData = isDummyJsonProduct
+          ? {
+              id: response.data.id,
+              title: response.data.title,
+              description: response.data.description,
+              price: response.data.price,
+              image: response.data.thumbnail,
+            }
+          : {
+              id: response.data.id,
+              title: response.data.title,
+              description: response.data.description,
+              price: response.data.price,
+              image: response.data.image,
+            };
+
+        setProduct(productData);
+      } catch (error) {
+        console.error("Error fetching product details:", error);
+      }
+    };
+
+    fetchProductDetails();
   }, [productId]);
 
   const handleAddToCart = () => {
@@ -35,16 +64,16 @@ const ProductDetail = ({ onAddToCart }) => {
   return (
     <div>
       <div className="product-detail">
-      <NavLink className='back' to={`/shop`}>
-      ← Back
-      </NavLink>
-      <img src={product.image} alt={product.title} />
-      <h1>{product.title}</h1>
-      <p>{product.description}</p>
-      <p>${product.price}</p>
-      <button onClick={handleAddToCart}>Add to Cart</button>
-    </div>
-    <Footer />
+        <NavLink className="back" to={`/shop`}>
+          ← Back
+        </NavLink>
+        <img src={product.image} alt={product.title} />
+        <h1>{product.title}</h1>
+        <p>{product.description}</p>
+        <p>${product.price}</p>
+        <button onClick={handleAddToCart}>Add to Cart</button>
+      </div>
+      <Footer />
     </div>
   );
 };
