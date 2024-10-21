@@ -9,6 +9,7 @@ import {
 } from "firebase/storage";
 import { updateProfile } from "firebase/auth";
 import ProfileIcon from "../assets/images/icons8-avatar-96.png";
+import Loader from "../components/Loader";
 
 const Profile = ({ user, setUser }) => {
   const [editing, setEditing] = useState(false);
@@ -17,6 +18,7 @@ const Profile = ({ user, setUser }) => {
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
   const [activeSection, setActiveSection] = useState("details");
+  const [loading, setLoading] = useState(false); // State for the loader
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -31,6 +33,7 @@ const Profile = ({ user, setUser }) => {
   const uploadProfilePicture = async (event) => {
     const file = event.target.files[0];
     if (file) {
+      setLoading(true);
       try {
         const storagePath = `profile_pictures/${user.uid}`;
         const storageRefPath = storageRef(storage, storagePath);
@@ -40,6 +43,8 @@ const Profile = ({ user, setUser }) => {
         setUser((prev) => ({ ...prev, photoURL: downloadURL }));
       } catch (error) {
         console.error("Error uploading profile picture:", error);
+      } finally {
+        setLoading(false);
       }
     }
   };
@@ -120,8 +125,12 @@ const Profile = ({ user, setUser }) => {
               >
                 User Details
               </p>
-
-              <p>Order History</p>
+              <p
+                className={`${activeSection === "order-history" ? "active" : ""}`}
+                onClick={() => setActiveSection("order-history")}
+              >
+                Order History
+              </p>
             </span>
           </div>
 
@@ -135,10 +144,14 @@ const Profile = ({ user, setUser }) => {
             <div className="user-info">
               <h2>User Details</h2>
               <div className="profile-picture">
-                <img
-                  src={user.photoURL || "../assets/default-profile-picture.png"}
-                  alt={user.displayName}
-                />
+                {loading ? (
+                  <Loader />
+                ) : (
+                  <img
+                    src={user.photoURL || ProfileIcon}
+                    alt={user.displayName}
+                  />
+                )}
                 <input
                   className="file-input"
                   type="file"
@@ -149,36 +162,52 @@ const Profile = ({ user, setUser }) => {
               <div className="user-details">
                 {editing ? (
                   <>
-                    <label htmlFor="newName">New Name:</label>
-                    <input
-                      value={newName}
-                      onChange={(e) => setNewName(e.target.value)}
-                      type="text"
-                      required
-                    />
-                    <label htmlFor="dob">Date of Birth:</label>
-                    <input
-                      value={dob}
-                      onChange={(e) => setDob(e.target.value)}
-                      type="date"
-                      required
-                    />
-                    <label htmlFor="address">Address:</label>
-                    <input
-                      value={address}
-                      onChange={(e) => setAddress(e.target.value)}
-                      type="text"
-                      required
-                    />
-                    <label htmlFor="phone">Phone Number:</label>
-                    <input
-                      value={phone}
-                      onChange={(e) => setPhone(e.target.value)}
-                      type="tel"
-                      required
-                    />
-                    <button onClick={saveProfile}>Save</button>
-                    <button onClick={cancelEdit}>Cancel</button>
+                    <div className="edit-user-info">
+                      <form className="edit-form">
+                        <label htmlFor="newName">New Name:</label>
+                        <input
+                          value={newName}
+                          onChange={(e) => setNewName(e.target.value)}
+                          type="text"
+                          required
+                        />
+                        <label htmlFor="dob">Date of Birth:</label>
+                        <input
+                          value={dob}
+                          onChange={(e) => setDob(e.target.value)}
+                          type="date"
+                          required
+                        />
+                        <label htmlFor="address">Address:</label>
+                        <input
+                          value={address}
+                          onChange={(e) => setAddress(e.target.value)}
+                          type="text"
+                          required
+                        />
+                        <label htmlFor="phone">Phone Number:</label>
+                        <input
+                          value={phone}
+                          onChange={(e) => setPhone(e.target.value)}
+                          type="tel"
+                          required
+                        />
+                      </form>
+                      <div style={{ display: "flex", gap: "10px" }}>
+                        <button
+                          className="profile-edit-button"
+                          onClick={saveProfile}
+                        >
+                          Save
+                        </button>
+                        <button
+                          className="profile-edit-button"
+                          onClick={cancelEdit}
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    </div>
                   </>
                 ) : (
                   <>
@@ -194,12 +223,19 @@ const Profile = ({ user, setUser }) => {
                     <p>
                       <strong>Phone Number:</strong> {phone}
                     </p>
-                    <button className="edit-button" onClick={startEdit}>
+                    <button className="profile-edit-button" onClick={startEdit}>
                       Edit Profile
                     </button>
                   </>
                 )}
               </div>
+            </div>
+          )}
+
+          {activeSection === "order-history" && (
+            <div className="order-history">
+              <h2>Order History</h2>
+              <p>No orders placed yet</p>
             </div>
           )}
         </div>
