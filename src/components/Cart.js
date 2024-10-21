@@ -39,12 +39,15 @@ const Cart = ({ items, onRemoveItem }) => {
               ))}
             </ul>
             <div className="checkout">
-              <p>Total Items: <strong>{totalItems}</strong></p>
-              <p>Total Price: <strong>${totalPrice.toFixed(2)}</strong></p>
-              <NavLink to="/checkout" className='button'>
+              <p>
+                Total Items: <strong>{totalItems}</strong>
+              </p>
+              <p>
+                Total Price: <strong>${totalPrice.toFixed(2)}</strong>
+              </p>
+              <NavLink to="/checkout" className="button">
                 Checkout
               </NavLink>
-            
             </div>
           </div>
         )}

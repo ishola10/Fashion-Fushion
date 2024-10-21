@@ -52,13 +52,13 @@
   background-color: white;
   padding: 20px;
   border-radius: 10px;
-  height: 30vh;
+  height: 35vh;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .fg .checkout p {
   text-align: center;
-  color: #333;
+  color:var(--highlight-color);
   padding: 10px 0;
 }
 
