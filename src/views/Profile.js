@@ -1,24 +1,30 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { auth, storage } from '../firebase'; 
-import { getDownloadURL, ref as storageRef, uploadBytes } from 'firebase/storage';
-import { updateProfile } from 'firebase/auth';
+import React, { useEffect, useState } from "react";
+import "../styles/Profile.css";
+import { Link, useNavigate } from "react-router-dom";
+import { auth, storage } from "../firebase";
+import {
+  getDownloadURL,
+  ref as storageRef,
+  uploadBytes,
+} from "firebase/storage";
+import { updateProfile } from "firebase/auth";
+import ProfileIcon from "../assets/images/icons8-avatar-96.png";
 
 const Profile = ({ user, setUser }) => {
   const [editing, setEditing] = useState(false);
-  const [newName, setNewName] = useState('');
-  const [dob, setDob] = useState('');
-  const [address, setAddress] = useState('');
-  const [phone, setPhone] = useState('');
-  const [activeSection, setActiveSection] = useState('details');
+  const [newName, setNewName] = useState("");
+  const [dob, setDob] = useState("");
+  const [address, setAddress] = useState("");
+  const [phone, setPhone] = useState("");
+  const [activeSection, setActiveSection] = useState("details");
   const navigate = useNavigate();
 
   useEffect(() => {
     if (user) {
-      setNewName(user.displayName || '');
-      setDob(user.dob || '');
-      setAddress(user.address || '');
-      setPhone(user.phone || '');
+      setNewName(user.displayName || "");
+      setDob(user.dob || "");
+      setAddress(user.address || "");
+      setPhone(user.phone || "");
     }
   }, [user]);
 
@@ -33,7 +39,7 @@ const Profile = ({ user, setUser }) => {
         await updateProfile(user, { photoURL: downloadURL });
         setUser((prev) => ({ ...prev, photoURL: downloadURL }));
       } catch (error) {
-        console.error('Error uploading profile picture:', error);
+        console.error("Error uploading profile picture:", error);
       }
     }
   };
@@ -49,7 +55,7 @@ const Profile = ({ user, setUser }) => {
         });
         setEditing(false);
       } catch (error) {
-        console.error('Error saving profile:', error);
+        console.error("Error saving profile:", error);
       }
     }
   };
@@ -65,47 +71,72 @@ const Profile = ({ user, setUser }) => {
   const signout = async () => {
     try {
       await auth.signOut();
-      setUser(null);  // Set the user to null when signing out
-      navigate('/');
+      setUser(null);
+      navigate("/");
     } catch (error) {
-      console.error('Error signing out:', error);
+      console.error("Error signing out:", error);
     }
   };
 
   if (!user) {
     return (
-      <div className="profile">
-        <p>User not logged in</p>
-        <Link to="/login">Login</Link>
+      <div
+        style={{ marginTop: "15%", alignItems: "center", textAlign: "center" }}
+        className="profile"
+      >
+        <img
+          src={ProfileIcon}
+          alt="Profile Icon"
+          style={{ width: "100px", height: "100px", borderRadius: "50%" }}
+        />
+        <p style={{ fontSize: "2rem", marginBottom: "2%" }}>
+          User not logged in
+        </p>
+        <Link
+          style={{
+            padding: "10px 20px",
+            border: "2px solid",
+            borderRadius: "5px",
+            textDecoration: "none",
+          }}
+          to="/login"
+        >
+          Login
+        </Link>
       </div>
     );
   }
 
   return (
     <div className="profile">
-      <h2>Profile</h2>
-      <div className="container">
-        <div className="sidebar">
-          <button
-            className={`nav-button ${activeSection === 'details' ? 'active' : ''}`}
-            onClick={() => setActiveSection('details')}
-          >
-            User Details
-          </button>
-          <button
-            className={`signout-btn`}
-            onClick={signout}
-          >
+      <div className="profile-container">
+        <div className="profile-sidebar">
+          <div className="prof">
+            <h1>Profile</h1>
+            <span>
+              <p
+                className={`${activeSection === "details" ? "active" : ""}`}
+                onClick={() => setActiveSection("details")}
+              >
+                User Details
+              </p>
+
+              <p>Order History</p>
+            </span>
+          </div>
+
+          <button className={`signout-btn`} onClick={signout}>
             Sign out
           </button>
         </div>
 
-        <div className="main-content">
-          {activeSection === 'details' && (
+        <div className="profile-main-content">
+          {activeSection === "details" && (
             <div className="user-info">
+              <h2>User Details</h2>
               <div className="profile-picture">
                 <img
-                  src={user.photoURL || '../assets/default-profile-picture.png'}
+                  src={user.photoURL || "../assets/default-profile-picture.png"}
                   alt={user.displayName}
                 />
                 <input
@@ -151,11 +182,21 @@ const Profile = ({ user, setUser }) => {
                   </>
                 ) : (
                   <>
-                    <p><strong>Name:</strong> {user.displayName}</p>
-                    <p><strong>Date of Birth:</strong> {dob}</p>
-                    <p><strong>Address:</strong> {address}</p>
-                    <p><strong>Phone Number:</strong> {phone}</p>
-                    <button className="edit-button" onClick={startEdit}>Edit Profile</button>
+                    <p>
+                      <strong>Name:</strong> {user.displayName}
+                    </p>
+                    <p>
+                      <strong>Date of Birth:</strong> {dob}
+                    </p>
+                    <p>
+                      <strong>Address:</strong> {address}
+                    </p>
+                    <p>
+                      <strong>Phone Number:</strong> {phone}
+                    </p>
+                    <button className="edit-button" onClick={startEdit}>
+                      Edit Profile
+                    </button>
                   </>
                 )}
               </div>

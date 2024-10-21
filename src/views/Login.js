@@ -36,7 +36,7 @@ function Login({ onLogin }) {
       <div className="temp">
         <div className="login">
           <h2>
-            Welcome to <strong style={{ color: 'var(--accent-color)' }}>Fashion Fusion!!</strong>,
+            Welcome to <strong style={{ color: 'var( --highlight-color)' }}>Fashion Fusion!!</strong>,
             let's get started
           </h2>
           <h3>Login</h3>

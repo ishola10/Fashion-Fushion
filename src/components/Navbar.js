@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import "../styles/Navbar.css";
+import ProfileIcon from '../assets/images/icons8-avatar-96.png'
 
 const NavBar = ({ user }) => {
   const [isFooterVisible, setIsFooterVisible] = useState(false);
@@ -40,20 +41,21 @@ const NavBar = ({ user }) => {
           <NavLink className="link" activeClassName="active" to="/" end>
             Home
           </NavLink>
-          <NavLink to="/shop">Shop</NavLink>
+          <NavLink className="link" activeClassName="active" to="/shop">Shop</NavLink>
           <NavLink className="link" activeClassName="active" to="/cart">
             Cart
           </NavLink>
 
           {user ? (
             <>
-              <NavLink className="link" activeClassName="active" to="/profile">
-                Profile
+              <NavLink style={{display: 'flex', alignItems: 'center'}} className="link" activeClassName="active" to="/profile">
+                <img src={user.photoURL || ProfileIcon} alt="profile" style={{width: '30px', height: '30px', borderRadius: '50%'}} />
+                <p>{user.displayName}</p>
               </NavLink>
             </>
           ) : (
             <>
-              <NavLink style={{padding: '10px 20px', border: "2px solid", borderRadius: '5px'}} className="link" activeClassName="active" to="/login">
+              <NavLink style={{padding: '10px 20px', border: "2px solid", borderRadius: '5px', }} className="link" activeClassName="active" to="/login">
                 Login
               </NavLink>
 
