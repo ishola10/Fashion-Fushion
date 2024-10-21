@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import "../styles/Profile.css";
 import { Link, useNavigate } from "react-router-dom";
-import { auth, storage } from "../firebase";
+import { auth, storage, db } from "../firebase";
 import {
   getDownloadURL,
   ref as storageRef,
   uploadBytes,
 } from "firebase/storage";
 import { updateProfile } from "firebase/auth";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import ProfileIcon from "../assets/images/icons8-avatar-96.png";
 import Loader from "../components/Loader";
 
@@ -18,7 +19,8 @@ const Profile = ({ user, setUser }) => {
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
   const [activeSection, setActiveSection] = useState("details");
-  const [loading, setLoading] = useState(false); // State for the loader
+  const [loading, setLoading] = useState(false);
+  const [orders, setOrders] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -27,8 +29,24 @@ const Profile = ({ user, setUser }) => {
       setDob(user.dob || "");
       setAddress(user.address || "");
       setPhone(user.phone || "");
+      fetchOrderHistory();
     }
   }, [user]);
+
+  const fetchOrderHistory = async () => {
+    try {
+      const ordersCollection = collection(db, "orders");
+      const q = query(ordersCollection, where("userId", "==", user.uid));
+      const querySnapshot = await getDocs(q);
+      const userOrders = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setOrders(userOrders);
+    } catch (error) {
+      console.error("Error fetching order history:", error);
+    }
+  };
 
   const uploadProfilePicture = async (event) => {
     const file = event.target.files[0];
@@ -235,7 +253,21 @@ const Profile = ({ user, setUser }) => {
           {activeSection === "order-history" && (
             <div className="order-history">
               <h2>Order History</h2>
-              <p>No orders placed yet</p>
+              {orders.length === 0 ? (
+                <p>No orders placed yet</p>
+              ) : (
+                <ul>
+                  {orders.map((order) => (
+                    <li key={order.id}>
+                      <p><strong>Order ID:</strong> {order.id}</p>
+                      <p><strong>Date:</strong> {order.date}</p>
+                      <p><strong>Status:</strong> {order.status}</p>
+                      <p><strong>Total:</strong> ${order.total}</p>
+                      <hr />
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
           )}
         </div>

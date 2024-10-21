@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import "../styles/ConfirmationModal.css";
 
 const ConfirmationModal = ({ isOpen, onClose }) => {
   useEffect(() => {
