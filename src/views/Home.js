@@ -42,7 +42,7 @@ const Home = ({ cartItems, setCartItems }) => {
 
   return (
     <div className="App  bg">
-      <h1>Fashion Fusion</h1>
+      <h1>Fashion Fusion & Stores</h1>
       <h2 className="zs">Shop the latest trends</h2>
 
       {isLoading ? (
